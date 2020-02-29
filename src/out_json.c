@@ -234,14 +234,14 @@ static char* _path_field(const char *path);
         if (len < 4096 / 6)                                                   \
           {                                                                   \
             const int _len = 6 * len + 1;                                     \
-            char *_buf = alloca (_len);                                       \
+            char *_buf = (char*)alloca (_len);                                \
             fprintf (dat->fh, "\"%s\"", json_cquote (_buf, str, _len));       \
             freea (_buf);                                                     \
           }                                                                   \
         else                                                                  \
           {                                                                   \
             const int _len = 6 * len + 1;                                     \
-            char *_buf = malloc (_len);                                       \
+            char *_buf = (char*)malloc (_len);                                \
             fprintf (dat->fh, "\"%s\"", json_cquote (_buf, str, _len));       \
             free (_buf);                                                      \
           }                                                                   \
@@ -858,10 +858,10 @@ _prefix (Bit_Chain *dat)
 
 static char* _path_field(const char *path)
 {
-  char *s = strrchr (path, ']');
+  const char *s = strrchr (path, ']');
   if (s && s[1] == '.')
     {
-      return &s[2];
+      return (char*)&s[2];
     }
   return (char*)path;
 }
@@ -1481,7 +1481,7 @@ dwg_json_object (Bit_Chain *restrict dat, Dwg_Object *restrict obj)
 static int
 json_fileheader_write (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_Header *_obj = &dwg->header;
+  Dwg_Header *_obj = &dwg->header;
   Dwg_Object *obj = NULL;
   int i;
 
@@ -1605,7 +1605,7 @@ json_thumbnail_write (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_r2004fileheader (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_R2004_Header *_obj = &dwg->r2004_header;
+  Dwg_R2004_Header *_obj = &dwg->r2004_header;
   Dwg_Object *obj = NULL;
   int i;
 
@@ -1620,7 +1620,7 @@ json_section_r2004fileheader (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_summary (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_SummaryInfo *_obj = &dwg->summaryinfo;
+  Dwg_SummaryInfo *_obj = &dwg->summaryinfo;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1636,7 +1636,7 @@ json_section_summary (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_vbaproject (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_VBAProject *_obj = &dwg->vbaproject;
+  Dwg_VBAProject *_obj = &dwg->vbaproject;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1653,7 +1653,7 @@ json_section_vbaproject (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_appinfo (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_AppInfo *_obj = &dwg->appinfo;
+  Dwg_AppInfo *_obj = &dwg->appinfo;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1669,7 +1669,7 @@ json_section_appinfo (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_appinfohistory (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_AppInfoHistory *_obj = &dwg->appinfohistory;
+  Dwg_AppInfoHistory *_obj = &dwg->appinfohistory;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1687,7 +1687,7 @@ json_section_appinfohistory (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_filedeplist (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_FileDepList *_obj = &dwg->filedeplist;
+  Dwg_FileDepList *_obj = &dwg->filedeplist;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL vcount, rcount1;
@@ -1703,7 +1703,7 @@ json_section_filedeplist (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_security (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_Security *_obj = &dwg->security;
+  Dwg_Security *_obj = &dwg->security;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1719,7 +1719,7 @@ json_section_security (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_revhistory (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_RevHistory *_obj = &dwg->revhistory;
+  Dwg_RevHistory *_obj = &dwg->revhistory;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL vcount;
@@ -1736,7 +1736,7 @@ json_section_revhistory (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_objfreespace (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_ObjFreeSpace *_obj = &dwg->objfreespace;
+  Dwg_ObjFreeSpace *_obj = &dwg->objfreespace;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1752,7 +1752,7 @@ json_section_objfreespace (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_template (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_Template *_obj = &dwg->template;
+  Dwg_Template *_obj = &dwg->Template;
   Dwg_Object *obj = NULL;
   int error = 0;
   BITCODE_RL rcount1;
@@ -1768,7 +1768,7 @@ json_section_template (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 static int
 json_section_auxheader (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
-  struct Dwg_AuxHeader *_obj = &dwg->auxheader;
+  Dwg_AuxHeader *_obj = &dwg->auxheader;
   Dwg_Object *obj = NULL;
   int error = 0, i;
   BITCODE_RL vcount, rcount1;
@@ -1804,7 +1804,7 @@ EXPORT int
 dwg_write_json (Bit_Chain *restrict dat, Dwg_Data *restrict dwg)
 {
   const int minimal = dwg->opts & DWG_OPTS_MINIMAL;
-  struct Dwg_Header *obj = &dwg->header;
+  Dwg_Header *obj = &dwg->header;
   int error = 0;
 
   fprintf (dat->fh, "{\n  \"created_by\": \"%s\"", PACKAGE_STRING);
